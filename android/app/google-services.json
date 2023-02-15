@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "125490308046",
+    "project_id": "whattodo-ea1d0",
+    "storage_bucket": "whattodo-ea1d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125490308046:android:c3c225a3bc2d69f644819f",
+        "android_client_info": {
+          "package_name": "com.WhatToDo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125490308046-ilu9nfj86bnqig3v5i6f47v5g97a42mn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy9GTzxV8VJ5S0Ebw6QS5ea1XtfHw9_GA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125490308046-ilu9nfj86bnqig3v5i6f47v5g97a42mn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
