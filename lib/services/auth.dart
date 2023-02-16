@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/account.dart';
+
+import '../main.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -7,6 +10,8 @@ class AuthService {
   Account? _accountFromFireBaseUser(User user) {
     return user != null ? Account(uid: user.uid) : null;
   }
+
+  // auth change user stream
 
   // Sign in guest
   Future signInGuest() async {
@@ -21,6 +26,20 @@ class AuthService {
   }
 
   // Sign in with email & password
+  Future signIn(context, userEmail, userPassword) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: userEmail, password: userPassword);
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
 
   // register with email & password
 

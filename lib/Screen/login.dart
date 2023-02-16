@@ -1,17 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_1/services/auth.dart';
-import '../main.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+import '../services/auth.dart';
+import 'home.dart';
 
+class Login extends StatefulWidget {
+  Login({super.key});
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<Login> createState() => _LoginState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,43 +23,20 @@ class _LoginScreenState extends State<LoginScreen> {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Center(child: Text("Something went wrong!"));
+              return const Center(child: Text("Something went wrong!"));
             } else if (snapshot.hasData) {
-              print("Has data");
               return HomePage();
             } else {
-              return LoginPage();
+              return LoginScreen();
             }
           }),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  final user = FirebaseAuth.instance.currentUser!;
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          // Text(user.email!),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size.fromHeight(50),
-            ),
-            icon: Icon(Icons.arrow_back, size: 32),
-            label: Text("sign out"),
-            onPressed: () => FirebaseAuth.instance.signOut(),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class LoginPage extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final AuthService _auth = AuthService();
@@ -118,7 +95,12 @@ class LoginPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              onPressed: signIn,
+              onPressed: () async {
+                dynamic result = await _auth.signIn(
+                    context,
+                    emailController.text.trim(),
+                    passwordController.text.trim());
+              },
               child: const Text('Login'),
             ),
           ),
@@ -142,9 +124,6 @@ class LoginPage extends StatelessWidget {
                 dynamic result = await _auth.signInGuest();
                 if (result == null) {
                   print("error singing in");
-                } else {
-                  print("signed in");
-                  print(result.uid);
                 }
               },
               child: const Text('Guest'),
@@ -168,22 +147,5 @@ class LoginPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Future signIn() async {
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   builder: (context) => Center(child: CircularProgressIndicator()),
-    // );
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
-    } on FirebaseException catch (e) {
-      print(e);
-    }
-
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

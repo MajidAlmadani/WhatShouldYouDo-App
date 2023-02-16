@@ -1,5 +1,5 @@
-import 'package:flutter_application_1/Login/authenticate.dart';
+import 'package:flutter_application_1/Screen/login.dart';
 
 var appRoutes = {
-  '/': (context) => const Authenticate(),
+  '/': (context) => Login(),
 };
