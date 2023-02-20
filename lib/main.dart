@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_application_1/routes.dart';
-import 'package:flutter_application_1/theme.dart';
 
+import 'routes.dart';
+import 'theme.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -15,8 +17,6 @@ class App extends StatefulWidget {
   @override
   State<App> createState() => _AppState();
 }
-
-final navigatorKey = GlobalKey<NavigatorState>();
 
 class _AppState extends State<App> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
